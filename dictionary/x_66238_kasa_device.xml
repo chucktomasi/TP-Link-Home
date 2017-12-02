@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Device" max_length="40" name="x_66238_kasa_device" type="collection">
+        <element display="true" label="Alias" max_length="40" name="alias" type="string"/>
+        <element label="App server URL" max_length="1024" name="app_server_url" type="url"/>
+        <element label="Device HW version" max_length="40" name="device_hw_version" type="string"/>
+        <element label="Device ID" max_length="40" name="device_id" type="string"/>
+        <element label="Device MAC" max_length="40" name="device_mac" type="string"/>
+        <element label="Device model" max_length="40" name="device_model" type="string"/>
+        <element label="Device name" max_length="40" name="device_name" type="string"/>
+        <element label="Device type" max_length="40" name="device_type" type="string"/>
+        <element label="Firmware ID" max_length="40" name="firmware_id" type="string"/>
+        <element label="Firmware version" max_length="40" name="firmware_version" type="string"/>
+        <element label="Hardware ID" max_length="40" name="hardware_id" type="string"/>
+        <element label="Is same region" max_length="40" name="is_same_region" type="boolean"/>
+        <element label="OEM ID" max_length="40" name="oem_id" type="string"/>
+        <element label="Role" max_length="40" name="role" type="integer"/>
+        <element label="Status" max_length="40" name="status" type="integer"/>
+        <element label="Token" max_length="32" name="token" reference="x_66238_kasa_token" type="reference"/>
+        <index name="index">
+            <element name="token"/>
+        </index>
+    </element>
+</database>

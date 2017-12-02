@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_66238_kasa.Utils</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>Utils</name>
+        <script><![CDATA[var Utils = Class.create();
+Utils.prototype = {
+	initialize: function() {
+		this.tokenTable  = 'x_66238_kasa_token';
+		this.deviceTable = 'x_66238_kasa_device';
+	},
+
+	getToken : function(tokenGr) {
+
+		var token = '';
+
+		try {
+
+			var bodyObj = {
+				"method": "login",
+				"params": {
+					"appType": "Kasa_ServiceNow",
+					"cloudUserName": tokenGr.getValue('user_name'),
+					"cloudPassword": tokenGr.getValue('password'),
+					"terminalUUID": tokenGr.getValue('uuid')
+				}
+			};
+
+			var r = new sn_ws.RESTMessageV2('x_66238_kasa.KASA', 'GetToken');
+
+			r.setRequestBody(JSON.stringify(bodyObj));
+			var response = r.execute();
+			var responseBody = response.getBody();
+			gs.info('responseBody=' + responseBody);
+			var httpStatus = response.getStatusCode();
+			gs.info('httpStatus=' + httpStatus);
+
+			var responseObj = JSON.parse(responseBody);
+			token = responseObj.result.token;
+			gs.info('TOKEN=' + token);
+
+		} catch(ex) {
+			var message = ex.getMessage();
+
+		}
+
+		return token;
+
+	},
+
+	getDeviceList : function(token) {
+
+		try {
+
+			var bodyObj = {
+				"method": "getDeviceList"
+			};
+
+			var r = new sn_ws.RESTMessageV2('x_66238_kasa.KASA', 'GetDeviceList');
+
+			r.setRequestBody(JSON.stringify(bodyObj));
+			r.setStringParameter('token', token);
+			var response = r.execute();
+			var responseBody = response.getBody();
+			gs.info('responseBody=' + responseBody);
+			var httpStatus = response.getStatusCode();
+			gs.info('httpStatus=' + httpStatus);
+
+			var responseObj = JSON.parse(responseBody);
+
+			return responseObj.result.deviceList;
+
+		} catch(ex) {
+			var message = ex.getMessage();
+
+		}
+
+		return;
+	},
+
+	createDeviceList : function(objList, tokenGr) {
+
+		for (var i = 0; i < objList.length; i++) {
+			this.createDevice(objList[i], tokenGr.getValue('sys_id'));
+		}
+	},
+
+	createDevice : function(obj, tokenSysId) {
+
+		var dev = new GlideRecord(this.deviceTable);
+		dev.newRecord();
+		dev.alias = obj.alias;
+		dev.app_server_url = obj.appServerUrl;
+		dev.device_hw_version = obj.deviceHwVer;
+		dev.device_id = obj.deviceId;
+		dev.device_mac = obj.deviceMac;
+		dev.device_model = obj.deviceModel;
+		dev.device_name = obj.deviceName;
+		dev.device_type = obj.deviceType;
+		dev.firmware_id = obj.fwId;
+		dev.firmware_version = obj.fwVer;
+		dev.hardware_id = obj.hwId;
+		dev.oem_id = obj.oemId;
+		dev.is_same_region = obj.isSameRegion;
+		dev.role = obj.role;
+		gs.info(dev.alias + ' status=' + obj.status + ' sameRegion=' + typeof obj.isSameRegion + ' ' + obj.isSameRegion);
+		dev.status = obj.status;
+		dev.token = tokenSysId;
+		dev.insert();
+	},
+
+	setDeviceState : function(devGr, state) {
+
+		var bodyObj = {
+			"method":"passthrough",
+			"params": {
+				"deviceId": devGr.getValue('device_id'),
+				"requestData": "{\"system\":{\"set_relay_state\":{\"state\": " + state + "}}}"
+			}
+		};
+
+		var rm = new sn_ws.RESTMessageV2();
+		var endPoint = devGr.getValue('app_server_url') + '?token=' + devGr.token.token;
+		rm.setEndpoint(endPoint);
+		rm.setHttpMethod('POST');
+		rm.setRequestBody(JSON.stringify(bodyObj));
+		var response = rm.execute();
+
+		var responseBody = response.getBody();
+		gs.info('responseBody=' + responseBody);
+		var httpStatus = response.getStatusCode();
+		gs.info('httpStatus=' + httpStatus);
+
+		var responseObj = JSON.parse(responseBody);
+
+		return;
+
+	},
+
+	type: 'Utils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-12-02 14:07:02</sys_created_on>
+        <sys_id>6fcae0610f7203007500cbdce1050e22</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name>Utils</sys_name>
+        <sys_package display_value="Kasa" source="x_66238_kasa">bd82a8250f3203007500cbdce1050eef</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Kasa">bd82a8250f3203007500cbdce1050eef</sys_scope>
+        <sys_update_name>sys_script_include_6fcae0610f7203007500cbdce1050e22</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-12-02 17:17:26</sys_updated_on>
+    </sys_script_include>
+</record_update>

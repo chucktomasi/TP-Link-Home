@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sysauto_script">
+    <sysauto_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <condition><![CDATA[answer = ifScript();
+
+function ifScript() {
+	
+	var enable = gs.getProperty('x_66238_kasa.auto_token_renew', 'true') == 'true';
+	
+	return enable;
+}]]></condition>
+        <conditional>true</conditional>
+        <name>Auto-update tokens</name>
+        <run_as display_value="System Administrator">6816f79cc0a8016401c5a33be04be441</run_as>
+        <run_as_tz/>
+        <run_dayofmonth>1</run_dayofmonth>
+        <run_dayofweek>1</run_dayofweek>
+        <run_period/>
+        <run_start>2018-03-04 22:46:40</run_start>
+        <run_time>1970-01-01 07:00:00</run_time>
+        <run_type>daily</run_type>
+        <script><![CDATA[(function() {
+	
+	var days = parseInt(gs.getProperty('x_66238_kasa.renew_token_days', 60));
+	var tok = new GlideRecord('x_66238_kasa_token');
+	tok.addQuery('sys_updated_on', '<=', days);
+	tok.query();
+	
+	while (tok.next()) {
+		new Utils().getToken(tok);
+		tok.update();
+	}
+})();]]></script>
+        <sys_class_name>sysauto_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-03-04 22:54:39</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>7a94d49fdba85740e5aef4a51f961925</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Auto-update tokens</sys_name>
+        <sys_package display_value="Kasa" source="x_66238_kasa">bd82a8250f3203007500cbdce1050eef</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Kasa">bd82a8250f3203007500cbdce1050eef</sys_scope>
+        <sys_update_name>sysauto_script_7a94d49fdba85740e5aef4a51f961925</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-03-04 22:59:00</sys_updated_on>
+        <upgrade_safe>false</upgrade_safe>
+    </sysauto_script>
+</record_update>

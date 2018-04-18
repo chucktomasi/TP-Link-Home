@@ -73,21 +73,21 @@
             <sum>false</sum>
             <sys_class_name>sys_ui_list</sys_class_name>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2018-03-04 22:59:40</sys_created_on>
+            <sys_created_on>2017-12-02 13:55:14</sys_created_on>
             <sys_customer_update>false</sys_customer_update>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
-            <sys_id>85979cdfdba85740e5aef4a51f9619d9</sys_id>
+            <sys_id>0db8e8ed0f3203007500cbdce1050ed8</sys_id>
             <sys_mod_count>0</sys_mod_count>
-            <sys_name/>
-            <sys_package/>
+            <sys_name>x_66238_kasa_token</sys_name>
+            <sys_package display_value="Kasa" source="x_66238_kasa">bd82a8250f3203007500cbdce1050eef</sys_package>
             <sys_policy/>
             <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
             <sys_scope display_value="Kasa">bd82a8250f3203007500cbdce1050eef</sys_scope>
-            <sys_update_name/>
+            <sys_update_name>sys_ui_list_x_66238_kasa_token_null</sys_update_name>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2018-03-04 22:59:40</sys_updated_on>
-            <sys_user display_value="System Administrator">6816f79cc0a8016401c5a33be04be441</sys_user>
+            <sys_updated_on>2017-12-02 13:55:14</sys_updated_on>
+            <sys_user/>
             <view display_value="Default view" name="NULL">Default view</view>
             <view_name/>
         </sys_ui_list>
